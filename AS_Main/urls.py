@@ -32,7 +32,6 @@ urlpatterns = [
 
     #豆瓣文章
     path('douban/',views.douban),
-
 ]
 
 
