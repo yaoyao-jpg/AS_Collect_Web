@@ -1,0 +1,87 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<div>
+    <div class="container">
+
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">
+          <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+          视频列表
+      </div>
+
+      <div class="panel-heading">
+          <span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>
+          <div style="text-align:left">
+        <form method="get" >
+        {% csrf_token %}
+        <label>
+            <input type="radio" name="sort" value="view">阅读量
+            <input type="radio" name="sort" value="like">点赞量
+            <input type="radio" name="sort" value="coin">投币数
+            <input type="radio" name="sort" value="collect">收藏数
+            <input type="radio" name="sort" value="score" checked>综合评分
+        </label>
+        <input type="submit" value="以此排序">
+        </form>
+        </div>
+      </div>
+      <!-- Table -->
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+              <th>题目</th>
+              <th>播放</th>
+              <th>点赞</th>
+              <th>投币</th>
+              <th>收藏</th>
+              <th>评分</th>
+              <th><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span></th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for obj in res %}
+              <tr>
+                <td>{{ obj.title }}</td>
+                  <td>{{ obj.view }}</td>
+                  <td>{{ obj.like }}</td>
+                  <td>{{ obj.coin }}</td>
+                  <td>{{ obj.collect}}</td>
+                  <td>{{ obj.score }}</td>
+                  <td>
+                      <a href={{ obj.url }} target="_blank">
+                         <span class="glyphicon glyphicon-expand" aria-hidden="true"></span>
+                      </a>
+                  </td>
+              </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

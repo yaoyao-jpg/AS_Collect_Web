@@ -1,0 +1,84 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<div>
+    <div class="container">
+
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">
+          <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+          文章列表
+      </div>
+
+      <div class="panel-heading">
+          <span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>
+          <div style="text-align:left">
+        <form method="get" >
+        {% csrf_token %}
+        <label>
+            <input type="radio" name="sort" value="view">阅读量
+            <input type="radio" name="sort" value="like">点赞量
+            <input type="radio" name="sort" value="reply">回复数
+            <input type="radio" name="sort" value="score" checked>综合评分
+        </label>
+        <input type="submit" value="以此排序">
+        </form>
+        </div>
+      </div>
+      <!-- Table -->
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+              <th>题目</th>
+              <th>阅读</th>
+              <th>点赞</th>
+              <th>回复</th>
+              <th>评分</th>
+              <th><span class="glyphicon glyphicon-book" aria-hidden="true"></span></th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for obj in res %}
+              <tr>
+                <td>{{ obj.title }}</td>
+                  <td>{{ obj.view }}</td>
+                  <td>{{ obj.like }}</td>
+                  <td>{{ obj.reply }}</td>
+                  <td>{{ obj.score }}</td>
+                  <td>
+                      <a href={{ obj.url }} target="_blank">
+                         <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+                      </a>
+                  </td>
+              </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

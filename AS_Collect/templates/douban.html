@@ -1,0 +1,73 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <div>
+        <div class="container">
+
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                    豆瓣文章列表
+                </div>
+
+                <div class="panel-heading" style="height: 80px">
+                    <div style="float: left;width: 300px">
+                        <form method="get">
+                            <div class="input-group">
+                                <label>
+                                    <input type="radio" name="sort" value="like">点赞量
+                                    <input type="radio" name="sort" value="collect">收藏数
+                                    <input type="radio" name="sort" value="score" checked>综合评分
+                                </label>
+                                <br>
+                                <label>
+                                    <span class="input-group-btn">
+                                    <input type="text" class="form-control" placeholder="查询作者" name="author"
+                                           value={{ search_data }}>
+                                        <button class="btn btn-default" type="submit">
+                                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                        </button>
+                                    </span>
+                                </label>
+                            </div><!-- /input-group -->
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <table class="table table-bordered" >
+                    <thead style="width:auto">
+                    <tr>
+                        <th>题目</th>
+                        <th>作者</th>
+                        <th style="width: 50px">点赞</th>
+                        <th style="width: 50px">收藏</th>
+                        <th style="width: 50px">评分</th>
+                        <th><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for obj in res %}
+                        <tr>
+                            <td>{{ obj.title }}</td>
+                            <td>{{ obj.author }}</td>
+                            <td>{{ obj.like }}</td>
+                            <td>{{ obj.collect }}</td>
+                            <td>{{ obj.score }}</td>
+                            <td>
+                                <a href={{ obj.url }} target="_blank">
+                                    <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
