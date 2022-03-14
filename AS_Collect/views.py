@@ -34,32 +34,31 @@ def news(request):
 #乃琳视频二创
 def video(request):
     if request.method == 'GET':
-        if request.GET.get('sort') is not None:
-            s='-'+request.GET.get('sort')
-        else:
-            s='-score'
-        return jsonResult(Lin_Video_Data.objects.all().order_by(s))
+        page = int(request.GET.get('page',default=0))
+        size = int(request.GET.get('size',default=10))
+        s='-'+request.GET.get('sort',default='score')
     print('Updating...')
     #Spider.Update_Lin_fanfiction_and_Section()
-    return jsonResult(Lin_Video_Data.objects.all().order_by('-score'))
+    query_set=Lin_Video_Data.objects.all().order_by(s)
+    tmp_set=query_set[page:page+size]
+    return jsonResult(tmp_set)
 
 
 #豆瓣文章
 def douban(request):
+    if request.method == 'GET':
+        page = int(request.GET.get('page',default=0))
+        size = int(request.GET.get('size',default=10))
+        search_data=request.GET.get('author',default='')
+        s='-'+request.GET.get('sort',default='score')
     data_dict={}
-    search_data=request.GET.get('author',"")
-    sort_data=request.GET.get('sort','-score')
-
     if search_data:
         data_dict['author__contains']=search_data
 
-    if request.method == 'GET':
-        if request.GET.get('sort') is not None:
-            s='-'+request.GET.get('sort')
-        else:
-            s='-score'
-        return jsonResult(DouBan_Article.objects.filter(**data_dict).order_by(s));
-    return jsonResult(DouBan_Article.objects.all().order_by('-score'))
+    print(s)
+    query_set=DouBan_Article.objects.all().order_by(s)
+    tmp_set=query_set[page:page+size]
+    return jsonResult(tmp_set)
 
 
 def jsonResult(data):#json化返回数据
