@@ -13,19 +13,20 @@ def main_page(request):
 #乃琳文章二创
 def news(request):
     if request.method == 'GET':
-        page = request.GET.get('page',default=0)
-        size = request.GET.get('size',default=10)
-
-        if request.GET.get('sort') is not None:
-            s='-'+request.GET.get('sort')
-        else:
-            s='-score'
-            query_set=Lin_Fanfiction_And_Section_Data.objects.all().order_by(s)
-            tmp_set=query_set[page:page+size]
-        return jsonResult(tmp_set)
+        page = int(request.GET.get('page',default=0))
+        size = int(request.GET.get('size',default=10))
+        s='-'+request.GET.get('sort',default='score')
+        # if request.GET.get('sort') is not None:
+        #
+        #     print(s)
+        # else:
+        #     s='-'
+        #     query_set=Lin_Fanfiction_And_Section_Data.objects.all().order_by(s)
+        #     tmp_set=query_set[page:page+size]
+        # return jsonResult(tmp_set)
     print('Updating...')
     #Spider.Update_Lin_fanfiction_and_Section()
-    query_set=Lin_Fanfiction_And_Section_Data.objects.all().order_by('-score')
+    query_set=Lin_Fanfiction_And_Section_Data.objects.all().order_by(s)
     tmp_set=query_set[page:page+size]
     return jsonResult(tmp_set)
 
@@ -48,6 +49,7 @@ def douban(request):
     data_dict={}
     search_data=request.GET.get('author',"")
     sort_data=request.GET.get('sort','-score')
+
     if search_data:
         data_dict['author__contains']=search_data
 
