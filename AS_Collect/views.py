@@ -16,17 +16,14 @@ def news(request):
         page = int(request.GET.get('page',default=0))
         size = int(request.GET.get('size',default=10))
         s='-'+request.GET.get('sort',default='score')
-        # if request.GET.get('sort') is not None:
-        #
-        #     print(s)
-        # else:
-        #     s='-'
-        #     query_set=Lin_Fanfiction_And_Section_Data.objects.all().order_by(s)
-        #     tmp_set=query_set[page:page+size]
-        # return jsonResult(tmp_set)
+        key=request.GET.get('key',default='')#筛选字段名，如author等
+        value=request.GET.get('value',default='')#筛选字段值
+    data_dict={}
+    if key:
+        data_dict[key+'__contains']=value
     print('Updating...')
     #Spider.Update_Lin_fanfiction_and_Section()
-    query_set=Lin_Fanfiction_And_Section_Data.objects.all().order_by(s)
+    query_set=Lin_Fanfiction_And_Section_Data.objects.filter(**data_dict).order_by(s)
     tmp_set=query_set[page:page+size]
     return jsonResult(tmp_set)
 
@@ -37,9 +34,14 @@ def video(request):
         page = int(request.GET.get('page',default=0))
         size = int(request.GET.get('size',default=10))
         s='-'+request.GET.get('sort',default='score')
+        key=request.GET.get('key',default='')
+        value=request.GET.get('value',default='')
+    data_dict={}
+    if key:
+        data_dict[key+'__contains']=value
     print('Updating...')
     #Spider.Update_Lin_fanfiction_and_Section()
-    query_set=Lin_Video_Data.objects.all().order_by(s)
+    query_set=Lin_Video_Data.objects.filter(**data_dict).order_by(s)
     tmp_set=query_set[page:page+size]
     return jsonResult(tmp_set)
 
@@ -49,14 +51,14 @@ def douban(request):
     if request.method == 'GET':
         page = int(request.GET.get('page',default=0))
         size = int(request.GET.get('size',default=10))
-        search_data=request.GET.get('author',default='')
         s='-'+request.GET.get('sort',default='score')
+        key=request.GET.get('key',default='')
+        value=request.GET.get('value',default='')
     data_dict={}
-    if search_data:
-        data_dict['author__contains']=search_data
+    if key:
+        data_dict[key+'__contains']=value
 
-    print(s)
-    query_set=DouBan_Article.objects.all().order_by(s)
+    query_set=DouBan_Article.objects.filter(**data_dict).order_by(s)
     tmp_set=query_set[page:page+size]
     return jsonResult(tmp_set)
 
